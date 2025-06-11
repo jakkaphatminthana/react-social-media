@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@layer utilities {
+  /* === blink effect === */
+  /* keyframes สำหรับทำ effect กระพริบ */
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1; /* เริ่มและจบด้วยความโปร่งใสเต็ม */
+    }
+    50% {
+      opacity: 0; /* กลางทาง (50%) ทำให้จางหายไป */
+    }
+  }
+  /* class ที่ใช้ blink animation */
+  .animate-blink {
+    animation: blink 0.8s step-end infinite;
+  }
+
+  /* === loading bar effect === */
+  /* ประกาศ keyframes สำหรับแถบ loading ขยับจากซ้ายไปขวา */
+  @keyframes loading {
+    0% {
+      transform: translateX(-100%); /* เริ่มต้นออกไปซ้ายสุด */
+    }
+    100% {
+      transform: translateX(250%); /* วิ่งไปทางขวาเกินจอ */
+    }
+  }
+  /* class ที่ใช้ loading animation */
+  .animate-loading-bar {
+    animation: loading 0.8s ease infinite;
+  }
+}
+
+/* ซ่อนก่อนค่อยแสดง */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* แสดงทันทีโดยไม่ขยับ */
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
