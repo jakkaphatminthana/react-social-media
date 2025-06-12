@@ -2,9 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
+import { useAuthStore } from "../store/useAuthStore";
+import AuthButton from "./button/AuthButton";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  //   const { user, signInWithGitHub, signOut } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const signInWithGitHub = useAuthStore((state) => state.signInWithGitHub);
+  const signOut = useAuthStore((state) => state.signOut);
 
   const links = [
     { to: "/", label: "Home" },
@@ -34,6 +41,13 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Desktop Auth */}
+          <AuthButton
+            user={user}
+            signInWithGitHub={signInWithGitHub}
+            signOut={signOut}
+          />
+
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
@@ -44,6 +58,7 @@ export default function Navbar() {
               {menuOpen ? <IoClose size={24} /> : <RxHamburgerMenu size={24} />}
             </button>
           </div>
+
           {/* Mobile Links */}
           {menuOpen && (
             <div className="md:hidden bg-[rgba(10,10,10, 0.9)]">
