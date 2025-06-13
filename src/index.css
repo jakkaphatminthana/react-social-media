@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary-100: #8a2be2;
+  --color-primary-200: #491f70;
+}
+
 @layer utilities {
   /* === blink effect === */
   /* keyframes สำหรับทำ effect กระพริบ */
@@ -44,4 +49,10 @@
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@layer components {
+  .page-text-header {
+    @apply text-6xl font-bold mb-6 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
 }
