@@ -51,4 +51,20 @@ async function fetchPosts(): Promise<Post[]> {
   }
 }
 
-export { createPost, fetchPosts };
+async function fetchPost(id: number): Promise<Post> {
+  try {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) throw new Error(error.message);
+    return data as Post;
+  } catch (error) {
+    console.error("Error fetchPosts():", error);
+    throw error;
+  }
+}
+
+export { createPost, fetchPosts, fetchPost };

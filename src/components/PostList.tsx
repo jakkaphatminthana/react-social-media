@@ -1,8 +1,8 @@
-import useListPost from "../services/useCase/useListPost";
+import useGetPosts from "../services/useCase/useGetPosts";
 import PostItem from "./PostItem";
 
 const PostList = () => {
-  const { data, error, isLoading } = useListPost();
+  const { data, error, isLoading } = useGetPosts();
 
   if (isLoading) <div>Loading post...</div>;
 

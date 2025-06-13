@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPosts, type Post } from "../postService";
 
-const useListPost = () => {
+const useGetPosts = () => {
   return useQuery<Post[]>({
-    queryKey: ["useListPost"],
+    queryKey: ["useGetPosts"],
     queryFn: async () => {
       return await fetchPosts();
     },
   });
 };
 
-export default useListPost;
+export default useGetPosts;

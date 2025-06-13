@@ -1,6 +1,6 @@
 import CreatePostForm from "../components/CreatePostForm";
 
-const CreatePost = () => {
+const CreatePostPage = () => {
   return (
     <div className="pt-20">
       <h2 className="page-text-header">Create New Post</h2>
@@ -9,4 +9,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreatePostPage;

@@ -1,11 +1,12 @@
 import { Route } from "react-router";
 import { Routes } from "react-router";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { supabase } from "./supabase-client";
-import CreatePost from "./pages/CreatePost";
+import CreatePostPage from "./pages/CreatePostPage";
+import PostPage from "./pages/PostPage";
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -30,8 +31,9 @@ function App() {
       <Navbar />
       <div className="container mx-auto px-4 py-6">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/create" element={<CreatePost />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/create" element={<CreatePostPage />} />
+          <Route path="/post/:id" element={<PostPage />} />
         </Routes>
       </div>
     </div>
