@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { supabase } from "./supabase-client";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -30,6 +31,7 @@ function App() {
       <div className="container mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/create" element={<CreatePost />} />
         </Routes>
       </div>
     </div>

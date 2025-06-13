@@ -61,7 +61,7 @@ export default function Navbar() {
 
           {/* Mobile Links */}
           {menuOpen && (
-            <div className="md:hidden bg-[rgba(10,10,10, 0.9)]">
+            <div className="md:hidden bg-[rgba(10,10,10, 0.9)] pt-30">
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {links.map(({ to, label }) => (
                   <Link
