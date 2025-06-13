@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useCreatePost } from "../services/useCreatePost";
+import { useCreatePost } from "../services/useCase/useCreatePost";
 
 const CreatePostForm = () => {
   //   const [title, setTitle] = useState<string>("");
