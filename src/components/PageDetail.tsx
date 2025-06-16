@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import useGetPost from "../services/post/useCase/useGetPost";
 import LikeButton from "./LikeButton";
+import CommentSection from "./CommentSection";
 
 interface Props {
   postId: number;
@@ -37,7 +38,9 @@ const PageDetail = ({ postId }: Props) => {
       )}
       <p className="text-gray-400">{data?.content}</p>
       <p className="text-gray-500 text-sm">Posted on: {dateDisplay}</p>
+
       <LikeButton postId={postId} />
+      <CommentSection postId={postId} />
     </div>
   );
 };
