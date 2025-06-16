@@ -2,19 +2,25 @@ import { useVoteAction } from "../services/vote/useCase/useVoteAction";
 import { useAuthStore } from "../store/useAuthStore";
 import { VoteAction } from "../types/enums";
 import useGetVotes from "../services/vote/useCase/useGetVotes";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   postId: number;
 }
 
 const LikeButton = ({ postId }: Props) => {
+  const queryClient = useQueryClient();
   const { user } = useAuthStore();
-  const { vote } = useVoteAction();
+  const { vote } = useVoteAction({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["useGetVotes"] });
+    },
+  });
   const { data: voteData, isLoading, error } = useGetVotes(postId);
 
   const handleVote = async (action: VoteAction) => {
     if (!user) return;
-    await vote({ postId, action, userId: user.id });
+    vote({ postId, action, userId: user.id });
   };
 
   const likeTotal =

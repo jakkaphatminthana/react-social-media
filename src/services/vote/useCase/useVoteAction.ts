@@ -1,16 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import type { MutationOptions } from "../../../types";
 import { voteAction, type VoteRequest } from "../voteService";
 
 export const useVoteAction = (options?: MutationOptions<void>) => {
-  const queryClient = useQueryClient();
-
   const mutation = useMutation<void, Error, VoteRequest>({
-    mutationFn: ({ postId, userId, action }) =>
-      voteAction({ postId, userId, action }),
+    mutationFn: (params) => voteAction(params),
     retry: false,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["useGetVotes"] });
       if (options?.onSuccess) {
         options.onSuccess();
       }
