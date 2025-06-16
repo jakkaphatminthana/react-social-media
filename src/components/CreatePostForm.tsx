@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useCreatePost } from "../services/useCase/useCreatePost";
+import { useCreatePost } from "../services/post/useCase/useCreatePost";
 import { useAuthStore } from "../store/useAuthStore";
 
 const CreatePostForm = () => {

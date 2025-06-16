@@ -1,5 +1,5 @@
-import { supabase } from "../supabase-client";
-import { uploadImage } from "./imageService";
+import { supabase } from "../../supabase-client";
+import { uploadImage } from "../image/imageService";
 
 export interface CreatePostReq {
   title: string;

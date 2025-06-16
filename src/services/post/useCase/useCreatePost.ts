@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { MutationOptions } from "../../types";
+import type { MutationOptions } from "../../../types";
 import { createPost, type CreatePostReq } from "../postService";
 
 interface RequestProps {

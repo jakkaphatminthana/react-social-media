@@ -1,4 +1,4 @@
-import useGetPosts from "../services/useCase/useGetPosts";
+import useGetPosts from "../services/post/useCase/useGetPosts";
 import PostItem from "./PostItem";
 
 const PostList = () => {
