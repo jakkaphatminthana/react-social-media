@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
 import { useCreatePost } from "../services/useCase/useCreatePost";
+import { useAuthStore } from "../store/useAuthStore";
 
 const CreatePostForm = () => {
   //   const [title, setTitle] = useState<string>("");
   //   const [content, setContent] = useState<string>("");
   //   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const { user } = useAuthStore();
 
   const { createPost, isLoading, isError } = useCreatePost({
     onSuccess: (res) => {
@@ -26,7 +28,14 @@ const CreatePostForm = () => {
     const file = formData.get("image") as File;
 
     if (!file) return;
-    createPost({ post: { title, content }, imageFile: file });
+    createPost({
+      post: {
+        title,
+        content,
+        avatar_url: user?.user_metadata?.avatar_url || null,
+      },
+      imageFile: file,
+    });
   };
 
   return (

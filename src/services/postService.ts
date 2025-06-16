@@ -4,6 +4,7 @@ import { uploadImage } from "./imageService";
 export interface CreatePostReq {
   title: string;
   content: string;
+  avatar_url: string | null;
 }
 
 async function createPost(post: CreatePostReq, imageFile: File) {
@@ -34,6 +35,7 @@ export interface Post {
   content: string;
   created_at: string;
   image_url: string;
+  avatar_url: string;
 }
 
 async function fetchPosts(): Promise<Post[]> {
