@@ -7,7 +7,7 @@ interface Props {
   postId: number;
 }
 
-const PageDetail = ({ postId }: Props) => {
+const PostDetail = ({ postId }: Props) => {
   const [postInfo] = useGetPostQueries(postId);
 
   const dateDisplay = useMemo(() => {
@@ -45,4 +45,4 @@ const PageDetail = ({ postId }: Props) => {
   );
 };
 
-export default PageDetail;
+export default PostDetail;

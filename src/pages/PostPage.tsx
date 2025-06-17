@@ -1,12 +1,12 @@
 import { useParams } from "react-router";
-import PageDetail from "../components/PageDetail";
+import PostDetail from "../components/PostDetail";
 
 const PostPage = () => {
   const { id } = useParams();
 
   return (
     <div className="pt-10">
-      <PageDetail postId={Number(id)} />
+      <PostDetail postId={Number(id)} />
     </div>
   );
 };
