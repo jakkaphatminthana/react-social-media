@@ -4,6 +4,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthButton from "./button/AuthButton";
+import {
+  ROUTE_COMMUNITY,
+  ROUTE_COMMUNITY_CREATE,
+  ROUTE_HOME,
+  ROUTE_POST_CREATE,
+} from "../constants/router.constant";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -14,10 +20,10 @@ export default function Navbar() {
   const signOut = useAuthStore((state) => state.signOut);
 
   const links = [
-    { to: "/", label: "Home" },
-    { to: "/create", label: "Create Post" },
-    { to: "/communities", label: "Communities" },
-    { to: "/communities/create", label: "Create Community" },
+    { to: ROUTE_HOME, label: "Home" },
+    { to: ROUTE_POST_CREATE, label: "Create Post" },
+    { to: ROUTE_COMMUNITY, label: "Communities" },
+    { to: ROUTE_COMMUNITY_CREATE, label: "Create Community" },
   ];
 
   return (

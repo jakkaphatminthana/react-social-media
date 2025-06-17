@@ -7,6 +7,13 @@ import { useEffect } from "react";
 import { supabase } from "./supabase-client";
 import CreatePostPage from "./pages/CreatePostPage";
 import PostPage from "./pages/PostPage";
+import CreateCommunityPage from "./pages/CreateCommunityPage";
+import {
+  ROUTE_COMMUNITY_CREATE,
+  ROUTE_HOME,
+  ROUTE_POST_CREATE,
+  ROUTE_POST_DETAIL,
+} from "./constants/router.constant";
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -31,9 +38,13 @@ function App() {
       <Navbar />
       <div className="container mx-auto px-4 py-6">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/create" element={<CreatePostPage />} />
-          <Route path="/post/:id" element={<PostPage />} />
+          <Route path={ROUTE_HOME} element={<HomePage />} />
+          <Route path={ROUTE_POST_CREATE} element={<CreatePostPage />} />
+          <Route path={ROUTE_POST_DETAIL} element={<PostPage />} />
+          <Route
+            path={ROUTE_COMMUNITY_CREATE}
+            element={<CreateCommunityPage />}
+          />
         </Routes>
       </div>
     </div>
