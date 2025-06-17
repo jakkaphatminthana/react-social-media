@@ -1,11 +1,5 @@
 import { supabase } from "../../supabase-client";
-import type { VoteAction } from "../../types/enums";
-
-export interface VoteRequest {
-  postId: number;
-  userId: string;
-  action: VoteAction;
-}
+import type { Vote, VoteRequest } from "./votesRepository.types";
 
 export async function voteAction({
   postId,
@@ -50,14 +44,7 @@ export async function voteAction({
   }
 }
 
-export interface Vote {
-  id: number;
-  post_id: number;
-  user_id: string;
-  vote: number;
-}
-
-export async function getVotesByPost(postId: number): Promise<Vote[]> {
+export async function getVotes(postId: number): Promise<Vote[]> {
   try {
     const { data, error } = await supabase
       .from("votes")
@@ -67,7 +54,7 @@ export async function getVotesByPost(postId: number): Promise<Vote[]> {
 
     return data as Vote[];
   } catch (error) {
-    console.log("Error getVotesByPost(): ", error);
+    console.log("Error getVotes(): ", error);
     throw error;
   }
 }

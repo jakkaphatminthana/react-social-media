@@ -1,14 +1,7 @@
 import { supabase } from "../../supabase-client";
+import type { CommentCreateRequest } from "./commentsRepository.types";
 
-export interface CommentCreateRequest {
-  postId: number;
-  content: string;
-  parentCommentId?: number | null;
-  userId: string;
-  author: string;
-}
-
-export async function createComment({
+async function createComment({
   postId,
   content,
   parentCommentId,
@@ -30,17 +23,7 @@ export async function createComment({
   }
 }
 
-export interface Comment {
-  id: number;
-  post_id: number;
-  parent_comment_id: number | null;
-  content: string;
-  user_id: string;
-  created_at: string;
-  author: string;
-}
-
-export async function getCommentsByPostId(postId: number): Promise<Comment[]> {
+async function getComments(postId: number): Promise<Comment[]> {
   try {
     const { data, error } = await supabase
       .from("comments")
@@ -51,7 +34,9 @@ export async function getCommentsByPostId(postId: number): Promise<Comment[]> {
 
     return data as Comment[];
   } catch (error) {
-    console.log("Error: getCommentsByPostId(): ", error);
+    console.log("Error: getComments(): ", error);
     throw error;
   }
 }
+
+export { createComment, getComments };

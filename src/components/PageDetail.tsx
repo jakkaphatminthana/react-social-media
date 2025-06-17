@@ -1,42 +1,42 @@
 import { useMemo } from "react";
-import useGetPost from "../services/post/useCase/useGetPost";
 import LikeButton from "./LikeButton";
 import CommentSection from "./CommentSection";
+import { useGetPostQueries } from "../queries/posts.query";
 
 interface Props {
   postId: number;
 }
 
 const PageDetail = ({ postId }: Props) => {
-  const { data, error, isLoading } = useGetPost(postId);
+  const [postInfo] = useGetPostQueries(postId);
 
   const dateDisplay = useMemo(() => {
-    return data?.created_at
-      ? new Date(data.created_at).toLocaleDateString()
+    return postInfo.data?.created_at
+      ? new Date(postInfo.data.created_at).toLocaleDateString()
       : "-";
-  }, [data]);
+  }, [postInfo.data]);
 
-  if (isLoading) {
+  if (postInfo.isLoading) {
     return <div>Loading post...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (postInfo.error) {
+    return <div>Error: {postInfo.error.message}</div>;
   }
 
   return (
     <div className="space-y-6">
-      <h2 className="page-text-header">{data?.title}</h2>
+      <h2 className="page-text-header">{postInfo.data?.title}</h2>
 
       {/* Image Banner */}
-      {data?.image_url && (
+      {postInfo.data?.image_url && (
         <img
-          src={data?.image_url}
-          alt={data?.title}
+          src={postInfo.data?.image_url}
+          alt={postInfo.data?.title}
           className="mt-4 rounded object-cover w-full h-64"
         />
       )}
-      <p className="text-gray-400">{data?.content}</p>
+      <p className="text-gray-400">{postInfo.data?.content}</p>
       <p className="text-gray-500 text-sm">Posted on: {dateDisplay}</p>
 
       <LikeButton postId={postId} />

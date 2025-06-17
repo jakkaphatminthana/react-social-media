@@ -1,5 +1,6 @@
 import { Link } from "react-router";
-import type { Post } from "../services/post/postService";
+import type { Post } from "../repositories/posts/postsRepository.types";
+
 interface Props {
   post: Post;
 }

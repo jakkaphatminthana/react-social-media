@@ -1,42 +1,45 @@
-import { useVoteAction } from "../services/vote/useCase/useVoteAction";
+import { QUERY_VOTES_KEY } from "../constants/query.constant";
+import { queryClient } from "../queries/queryClient";
+import { useVoteMutation, useGetVotesQueries } from "../queries/votes.query";
 import { useAuthStore } from "../store/useAuthStore";
 import { VoteAction } from "../types/enums";
-import useGetVotes from "../services/vote/useCase/useGetVotes";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   postId: number;
 }
 
 const LikeButton = ({ postId }: Props) => {
-  const queryClient = useQueryClient();
   const { user } = useAuthStore();
-  const { vote } = useVoteAction({
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["useGetVotes"] });
-    },
-  });
-  const { data: voteData, isLoading, error } = useGetVotes(postId);
+  const [votesInfo] = useGetVotesQueries(postId);
+
+  const voteActionMutation = useVoteMutation();
 
   const handleVote = async (action: VoteAction) => {
     if (!user) return;
-    vote({ postId, action, userId: user.id });
+    voteActionMutation.mutate(
+      { postId, action, userId: user.id },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [QUERY_VOTES_KEY] });
+        },
+      }
+    );
   };
 
   const likeTotal =
-    voteData?.filter((v) => v.vote === VoteAction.LIKE).length || 0;
+    votesInfo.data?.filter((v) => v.vote === VoteAction.LIKE).length || 0;
 
   const dislikeTotal =
-    voteData?.filter((v) => v.vote === VoteAction.DISLIKE).length || 0;
+    votesInfo.data?.filter((v) => v.vote === VoteAction.DISLIKE).length || 0;
 
-  const userVote = voteData?.find((v) => v.user_id === user?.id)?.vote;
+  const userVote = votesInfo.data?.find((v) => v.user_id === user?.id)?.vote;
 
-  if (isLoading) {
+  if (votesInfo.isLoading) {
     return <div>Loading votes...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (votesInfo.error) {
+    return <div>Error: {votesInfo.error.message}</div>;
   }
 
   return (

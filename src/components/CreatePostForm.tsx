@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import { useCreatePost } from "../services/post/useCase/useCreatePost";
 import { useAuthStore } from "../store/useAuthStore";
+import { useCreatePostMutation } from "../queries/posts.query";
 
 const CreatePostForm = () => {
   //   const [title, setTitle] = useState<string>("");
@@ -9,12 +9,7 @@ const CreatePostForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const { user } = useAuthStore();
 
-  const { createPost, isLoading, isError } = useCreatePost({
-    onSuccess: (res) => {
-      console.log(res);
-      formRef.current?.reset();
-    },
-  });
+  const createPostMutation = useCreatePostMutation();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,14 +23,19 @@ const CreatePostForm = () => {
     const file = formData.get("image") as File;
 
     if (!file) return;
-    createPost({
-      post: {
+    createPostMutation.mutate(
+      {
         title,
         content,
         avatar_url: user?.user_metadata?.avatar_url || null,
+        imageFile: file,
       },
-      imageFile: file,
-    });
+      {
+        onSuccess: () => {
+          formRef.current?.reset();
+        },
+      }
+    );
   };
 
   return (
@@ -86,10 +86,12 @@ const CreatePostForm = () => {
         type="submit"
         className="bg-purple-500 text-white px-4 py-2 rounded cursor-pointer"
       >
-        {isLoading ? "Creating..." : "Create Post"}
+        {createPostMutation.isPending ? "Creating..." : "Create Post"}
       </button>
 
-      {isError && <p className="text-red-500">Error creating post.</p>}
+      {createPostMutation.isError && (
+        <p className="text-red-500">Error creating post.</p>
+      )}
     </form>
   );
 };

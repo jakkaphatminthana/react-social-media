@@ -1,18 +1,18 @@
-import useGetPosts from "../services/post/useCase/useGetPosts";
+import { useGetPostsQueries } from "../queries/posts.query";
 import PostItem from "./PostItem";
 
 const PostList = () => {
-  const { data, error, isLoading } = useGetPosts();
+  const [postsInfo] = useGetPostsQueries();
 
-  if (isLoading) <div>Loading post...</div>;
+  if (postsInfo.isLoading) <div>Loading post...</div>;
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (postsInfo.error) {
+    return <div>Error: {postsInfo.error.message}</div>;
   }
 
   return (
     <div className="flex flex-wrap gap-6 justify-center">
-      {data?.map((post, index) => (
+      {postsInfo?.data?.map((post, index) => (
         <PostItem post={post} key={index} />
       ))}
     </div>

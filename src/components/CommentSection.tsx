@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { useCreateComment } from "../services/comment/useCase/useCreateComment";
+import { useCreateCommentMutation } from "../queries/comments.query";
 
 interface Props {
   postId: number;
@@ -10,7 +10,8 @@ const CommentSection = ({ postId }: Props) => {
   const [newCommentText, setNewCommentText] = useState<string>("");
 
   const { user } = useAuthStore();
-  const { createComment, isLoading, isError } = useCreateComment();
+
+  const createCommentMutation = useCreateCommentMutation();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ const CommentSection = ({ postId }: Props) => {
     if (!userId || !author)
       throw new Error("You must be logged in to comment.");
 
-    createComment({
+    createCommentMutation.mutate({
       postId: Number(postId),
       content: newCommentText,
       parentCommentId: null,
@@ -50,10 +51,10 @@ const CommentSection = ({ postId }: Props) => {
             className="mt-2 bg-purple-500 text-white px-4 py-2 rounded cursor-pointer"
             disabled={!newCommentText}
           >
-            {isLoading ? "Posting..." : "Post Comment"}
+            {createCommentMutation.isPending ? "Posting..." : "Post Comment"}
           </button>
 
-          {isError && (
+          {createCommentMutation.isError && (
             <p className="text-red-500 mt-2">Error posting comment.</p>
           )}
         </form>

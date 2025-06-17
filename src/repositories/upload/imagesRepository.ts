@@ -1,16 +1,11 @@
 import { supabase } from "../../supabase-client";
-
-interface UploadImageProps {
-  imageFile: File;
-  fileName: string;
-  group: "post-images";
-}
+import type { ImageUploadProps } from "./imagesRepository.types";
 
 async function uploadImage({
   imageFile,
   fileName,
   group,
-}: UploadImageProps): Promise<string> {
+}: ImageUploadProps): Promise<string> {
   try {
     const filePath = `${fileName}-${Date.now()}-${imageFile.name}`;
     const { error: uploadError } = await supabase.storage

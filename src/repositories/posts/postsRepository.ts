@@ -1,44 +1,31 @@
 import { supabase } from "../../supabase-client";
-import { uploadImage } from "../image/imageService";
+import { uploadImage } from "../upload/imagesRepository";
+import type { Post, PostCreateRequest } from "./postsRepository.types";
 
-export interface CreatePostReq {
-  title: string;
-  content: string;
-  avatar_url: string | null;
-}
-
-async function createPost(post: CreatePostReq, imageFile: File) {
+async function createPost(post: PostCreateRequest): Promise<void> {
   try {
     // upload image
     const imageUrl = await uploadImage({
-      imageFile: imageFile,
+      imageFile: post.imageFile,
       fileName: post.title,
       group: "post-images",
     });
 
     // create row data
-    const { data, error } = await supabase
-      .from("posts")
-      .insert({ ...post, image_url: imageUrl });
+    const { error } = await supabase.from("posts").insert({
+      title: post.title,
+      content: post.content,
+      avatar_url: post.avatar_url,
+      image_url: imageUrl,
+    });
     if (error) throw new Error(error.message);
-
-    return data;
   } catch (error) {
     console.error("Error createPost():", error);
     throw error;
   }
 }
 
-export interface Post {
-  id: number;
-  title: string;
-  content: string;
-  created_at: string;
-  image_url: string;
-  avatar_url: string;
-}
-
-async function fetchPosts(): Promise<Post[]> {
+async function getPosts(): Promise<Post[]> {
   try {
     const { data, error } = await supabase
       .from("posts")
@@ -53,7 +40,7 @@ async function fetchPosts(): Promise<Post[]> {
   }
 }
 
-async function fetchPost(id: number): Promise<Post> {
+async function getPost(id: number): Promise<Post> {
   try {
     const { data, error } = await supabase
       .from("posts")
@@ -69,4 +56,4 @@ async function fetchPost(id: number): Promise<Post> {
   }
 }
 
-export { createPost, fetchPosts, fetchPost };
+export { createPost, getPosts, getPost };
