@@ -56,4 +56,16 @@ async function getPost(id: number): Promise<Post> {
   }
 }
 
-export { createPost, getPosts, getPost };
+async function getPostsWithCount(): Promise<Post[]> {
+  try {
+    const { data, error } = await supabase.rpc("get_posts_with_counts");
+    if (error) throw new Error(error.message);
+
+    return data as Post[];
+  } catch (error) {
+    console.error("Error getPostsWithCount():", error);
+    throw error;
+  }
+}
+
+export { createPost, getPosts, getPost, getPostsWithCount };

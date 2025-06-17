@@ -5,10 +5,7 @@ import {
   useGetCommentsTreeQuery,
 } from "../queries/comments.query";
 import { queryClient } from "../queries/queryClient";
-import {
-  QUERY_COMMENTS_KEY,
-  QUERY_COMMENTS_TREES_KEY,
-} from "../constants/query.constant";
+import { QUERY_COMMENTS_TREES_KEY } from "../constants/query.constant";
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
 

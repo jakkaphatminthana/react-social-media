@@ -1,4 +1,7 @@
-import { QUERY_VOTES_KEY } from "../constants/query.constant";
+import {
+  QUERY_POSTS_WITH_COUNT_KEY,
+  QUERY_VOTES_KEY,
+} from "../constants/query.constant";
 import { queryClient } from "../queries/queryClient";
 import { useVoteMutation, useGetVotesQueries } from "../queries/votes.query";
 import { useAuthStore } from "../store/useAuthStore";
@@ -21,6 +24,9 @@ const LikeButton = ({ postId }: Props) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [QUERY_VOTES_KEY] });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_POSTS_WITH_COUNT_KEY],
+          });
         },
       }
     );
