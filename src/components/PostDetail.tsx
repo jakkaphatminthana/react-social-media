@@ -26,7 +26,7 @@ const PostDetail = ({ postId }: Props) => {
 
   return (
     <div className="space-y-6">
-      <h2 className="page-text-header">{postInfo.data?.title}</h2>
+      <h2 className="text-page-header">{postInfo.data?.title}</h2>
 
       {/* Image Banner */}
       {postInfo.data?.image_url && (

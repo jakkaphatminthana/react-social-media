@@ -82,10 +82,7 @@ const CreatePostForm = () => {
         />
       </div>
 
-      <button
-        type="submit"
-        className="bg-purple-500 text-white px-4 py-2 rounded cursor-pointer"
-      >
+      <button type="submit" className="button-primary">
         {createPostMutation.isPending ? "Creating..." : "Create Post"}
       </button>
 
