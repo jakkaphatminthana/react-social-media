@@ -15,3 +15,5 @@ export interface Comment {
   created_at: string;
   author: string;
 }
+
+export type CommentParent = Comment & { children?: Comment[] };

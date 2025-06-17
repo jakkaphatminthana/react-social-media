@@ -1,6 +1,16 @@
 import { useState, type FormEvent } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { useCreateCommentMutation } from "../queries/comments.query";
+import {
+  useCreateCommentMutation,
+  useGetCommentsTreeQuery,
+} from "../queries/comments.query";
+import { queryClient } from "../queries/queryClient";
+import {
+  QUERY_COMMENTS_KEY,
+  QUERY_COMMENTS_TREES_KEY,
+} from "../constants/query.constant";
+import CommentItem from "./CommentItem";
+import CommentForm from "./CommentForm";
 
 interface Props {
   postId: number;
@@ -10,6 +20,7 @@ const CommentSection = ({ postId }: Props) => {
   const [newCommentText, setNewCommentText] = useState<string>("");
 
   const { user } = useAuthStore();
+  const { data, isError, isLoading, error } = useGetCommentsTreeQuery(postId);
 
   const createCommentMutation = useCreateCommentMutation();
 
@@ -23,46 +34,59 @@ const CommentSection = ({ postId }: Props) => {
     if (!userId || !author)
       throw new Error("You must be logged in to comment.");
 
-    createCommentMutation.mutate({
-      postId: Number(postId),
-      content: newCommentText,
-      parentCommentId: null,
-      userId: userId,
-      author: author,
-    });
+    createCommentMutation.mutate(
+      {
+        postId: Number(postId),
+        content: newCommentText,
+        parentCommentId: null,
+        userId: userId,
+        author: author,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_COMMENTS_TREES_KEY],
+          });
+        },
+      }
+    );
 
     setNewCommentText("");
   };
 
+  if (isLoading) {
+    return <div>Loading comments...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div className="mt-6">
       <h3 className="text-2xl font-semibold mb-4">Comments</h3>
-      {user ? (
-        <form onSubmit={handleSubmit}>
-          <textarea
-            value={newCommentText}
-            onChange={(e) => setNewCommentText(e.target.value)}
-            rows={3}
-            placeholder="Write a comment..."
-            className="w-full border border-white/10 bg-transparent p-2 rounded"
-          />
-          <button
-            type="submit"
-            className="mt-2 bg-purple-500 text-white px-4 py-2 rounded cursor-pointer"
-            disabled={!newCommentText}
-          >
-            {createCommentMutation.isPending ? "Posting..." : "Post Comment"}
-          </button>
 
-          {createCommentMutation.isError && (
-            <p className="text-red-500 mt-2">Error posting comment.</p>
-          )}
-        </form>
+      {/* Create Comment Section */}
+      {user ? (
+        <CommentForm
+          handleSubmit={handleSubmit}
+          value={newCommentText}
+          onChange={(e) => setNewCommentText(e.target.value)}
+          isLoading={createCommentMutation.isPending}
+          isError={createCommentMutation.isError}
+        />
       ) : (
         <p className="mb-4 text-gray-600">
           You must be logged in to post a comment
         </p>
       )}
+
+      {/* Comment display */}
+      <div className="space-y-4 mt-4">
+        {data?.map((comment, index) => (
+          <CommentItem key={index} comment={comment} postId={postId} />
+        ))}
+      </div>
     </div>
   );
 };
