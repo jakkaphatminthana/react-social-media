@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useCreateCommunityMutation } from "../queries/communities.query";
 import { useNavigate } from "react-router";
-import { ROUTE_COMMUNITY } from "../constants/router.constant";
+import { ROUTE_COMMUNITIES } from "../constants/router.constant";
 import { queryClient } from "../queries/queryClient";
 import { QUERY_COMMUNITIES_KEY } from "../constants/query.constant";
 
@@ -19,7 +19,7 @@ const CreateCommunityForm = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [QUERY_COMMUNITIES_KEY] });
-          navigate(ROUTE_COMMUNITY);
+          navigate(ROUTE_COMMUNITIES);
         },
       }
     );

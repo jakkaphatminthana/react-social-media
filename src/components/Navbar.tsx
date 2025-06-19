@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthButton from "./button/AuthButton";
 import {
-  ROUTE_COMMUNITY,
+  ROUTE_COMMUNITIES,
   ROUTE_COMMUNITY_CREATE,
   ROUTE_HOME,
   ROUTE_POST_CREATE,
@@ -22,7 +22,7 @@ export default function Navbar() {
   const links = [
     { to: ROUTE_HOME, label: "Home" },
     { to: ROUTE_POST_CREATE, label: "Create Post" },
-    { to: ROUTE_COMMUNITY, label: "Communities" },
+    { to: ROUTE_COMMUNITIES, label: "Communities" },
     { to: ROUTE_COMMUNITY_CREATE, label: "Create Community" },
   ];
 

@@ -3,6 +3,7 @@ export interface PostCreateRequest {
   content: string;
   avatar_url: string | null;
   imageFile: File;
+  community_id?: number | null;
 }
 
 export interface Post {
@@ -14,4 +15,10 @@ export interface Post {
   avatar_url?: string;
   like_count?: number;
   comment_count?: number;
+}
+
+export interface PostWithCommunity extends Post {
+  communities: {
+    name: string;
+  };
 }

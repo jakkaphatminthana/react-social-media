@@ -9,12 +9,14 @@ import CreatePostPage from "./pages/CreatePostPage";
 import PostPage from "./pages/PostPage";
 import CreateCommunityPage from "./pages/CreateCommunityPage";
 import {
+  ROUTE_COMMUNITIES,
   ROUTE_COMMUNITY,
   ROUTE_COMMUNITY_CREATE,
   ROUTE_HOME,
   ROUTE_POST_CREATE,
   ROUTE_POST_DETAIL,
 } from "./constants/router.constant";
+import CommunitiesPage from "./pages/CommunitiesPage";
 import CommunityPage from "./pages/CommunityPage";
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
             path={ROUTE_COMMUNITY_CREATE}
             element={<CreateCommunityPage />}
           />
+          <Route path={ROUTE_COMMUNITIES} element={<CommunitiesPage />} />
           <Route path={ROUTE_COMMUNITY} element={<CommunityPage />} />
         </Routes>
       </div>

@@ -1,6 +1,10 @@
 import { supabase } from "../../supabase-client";
 import { uploadImage } from "../upload/imagesRepository";
-import type { Post, PostCreateRequest } from "./postsRepository.types";
+import type {
+  Post,
+  PostCreateRequest,
+  PostWithCommunity,
+} from "./postsRepository.types";
 
 async function createPost(post: PostCreateRequest): Promise<void> {
   try {
@@ -17,6 +21,7 @@ async function createPost(post: PostCreateRequest): Promise<void> {
       content: post.content,
       avatar_url: post.avatar_url,
       image_url: imageUrl,
+      community_id: post.community_id,
     });
     if (error) throw new Error(error.message);
   } catch (error) {
@@ -68,4 +73,28 @@ async function getPostsWithCount(): Promise<Post[]> {
   }
 }
 
-export { createPost, getPosts, getPost, getPostsWithCount };
+async function getPostsWithCommunity(
+  communityId: number
+): Promise<PostWithCommunity[]> {
+  try {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*, communities(name)")
+      .eq("community_id", communityId)
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+
+    return data as PostWithCommunity[];
+  } catch (error) {
+    console.error("Error getCommunityPosts(): ", error);
+    throw error;
+  }
+}
+
+export {
+  createPost,
+  getPosts,
+  getPost,
+  getPostsWithCount,
+  getPostsWithCommunity,
+};

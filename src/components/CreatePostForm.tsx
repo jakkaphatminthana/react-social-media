@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useCreatePostMutation } from "../queries/posts.query";
+import { useGetCommunitiesQuery } from "../queries/communities.query";
 
 const CreatePostForm = () => {
   //   const [title, setTitle] = useState<string>("");
@@ -8,6 +9,8 @@ const CreatePostForm = () => {
   //   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const { user } = useAuthStore();
+
+  const { data: communities } = useGetCommunitiesQuery();
 
   const createPostMutation = useCreatePostMutation();
 
@@ -21,6 +24,13 @@ const CreatePostForm = () => {
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const file = formData.get("image") as File;
+    const communityValue = formData.get("community");
+    const communityId =
+      communityValue &&
+      typeof communityValue === "string" &&
+      communityValue !== ""
+        ? Number(communityValue)
+        : null;
 
     if (!file) return;
     createPostMutation.mutate(
@@ -29,6 +39,7 @@ const CreatePostForm = () => {
         content,
         avatar_url: user?.user_metadata?.avatar_url || null,
         imageFile: file,
+        community_id: communityId,
       },
       {
         onSuccess: () => {
@@ -68,6 +79,19 @@ const CreatePostForm = () => {
           rows={5}
         />
       </div>
+
+      <div>
+        <label>Select Community</label>
+        <select id="community" name="community">
+          <option value={""}> -- Choose a Community -- </option>
+          {communities?.map((community, index) => (
+            <option key={index} value={community.id}>
+              {community.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div>
         <label htmlFor="image" className="block mb-2 font-medium">
           Upload Image
