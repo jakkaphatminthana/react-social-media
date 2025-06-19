@@ -9,14 +9,13 @@ Users can view posts, explore communities, and interact with content in a smooth
 
 ## 🛠️ Tech Stack
 
-- **React 18**
-- **TypeScript**
-- **Tailwind CSS**
-- **TanStack Query (React Query)** — Data Fetching & Caching
-- **Zustand** — Lightweight State Management
-- **Vite** — Next-gen Frontend Tooling
-- **Vercel** — Deployment Platform
-- 
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Data Fetching & Caching**: TanStack Query (React Query)
+- **Backend**: Supabase (PostgreSQL, RESTful API, Auth)
+- **Deployment**: Vercel
+  
 ## 📦 Installation
 
 1. **Clone this repo**
@@ -34,7 +33,19 @@ yarn install
 
 3. **Setup Environment Variables**
 Create a .env file in the root directory and add the following:
-```bash
+```env
 VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
+4. **Run the development server**
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+5. **Open in browser**
+```arduino
+http://localhost:5173
+```
+
